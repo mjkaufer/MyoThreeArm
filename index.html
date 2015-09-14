@@ -18,6 +18,7 @@
 	<body>
 
 		<script src="js/three.min.js"></script>
+		<script src="js/TrackballControls.js"></script>
 		<script src="js/Finger.js"></script>
 
 		<script>
@@ -26,12 +27,13 @@
 
 			var camera, scene, renderer;
 
-			var geometry, group;
-
 			var mouseX = 0, mouseY = 0;
 
 			var windowHalfX = window.innerWidth / 2;
 			var windowHalfY = window.innerHeight / 2;
+
+			var material, controls;
+
 
 
 
@@ -49,34 +51,39 @@
 				camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 1, 10000 );
 				camera.position.z = 500;
 
+				controls = new THREE.TrackballControls( camera );
+				controls.addEventListener( 'change', render );
+
+
 				scene = new THREE.Scene();
 				scene.fog = new THREE.Fog( 0xffffff, 1, 10000 );
 
 
-
+				material = new THREE.MeshNormalMaterial();
 
 				// the indenting is intentional, to make the object hierarchy clearer - I promise I'm not a bad programmer
 
 				var armGroup = new THREE.Object3D()
 
 					var forearmGroup = new THREE.Object3D()
+
+						var handGroup = new THREE.Object3D()
+
+							var fingers = {
+								pointer: new Finger("pointer"),
+								middle: new Finger("middle"),
+								ring: new Finger("ring"),
+								pinky: new Finger("pinky")
+							}
+
+							for(var i in fingers){
+								var finger = fingers[i];
+								handGroup.add(finger.group)
+							}
+
+						forearmGroup.add(handGroup)
+
 					armGroup.add(forearmGroup)
-
-					var handGroup = new THREE.Object3D()
-
-						var fingers = {
-							pointer: new Finger("pointer"),
-							middle: new Finger("middle"),
-							ring: new Finger("ring"),
-							pinky: new Finger("pinky")
-						}
-
-						for(var i in fingers){
-							var finger = fingers[i];
-							handGroup.add(finger.group)
-						}
-
-					armGroup.add(handGroup)
 
 				scene.add(armGroup)
 
@@ -103,6 +110,8 @@
 
 				renderer.setSize( window.innerWidth, window.innerHeight );
 
+				controls.handleResize();
+
 			}
 
 			function onDocumentMouseMove(event) {
@@ -119,6 +128,7 @@
 				requestAnimationFrame( animate );
 
 				render();
+				controls.update();
 
 			}
 
