@@ -34,7 +34,7 @@
 
 			var lineMaterial, material, geometry, controls;
 
-
+			var webbing = true;
 
 
 
@@ -80,33 +80,58 @@
 
 				// the indenting is intentional, to make the object hierarchy clearer - I promise I'm not a bad programmer
 
-				// code results in a top-down view of the right hand
-				// or a bottom-down view of the left hand, if you're so inclined
+				// code results in a top-down view of the left hand's palm
 
-				var handXOffset = 50;
+				var handXOffset = 100;
+				var lowerThumbJointPosition = xzVector(25, -Math.PI / 2 + Math.PI / 24);
+				var upperThumbJointPosition = xzVector(15, -Math.PI / 2 + Math.PI / 4);
 
-				var armGroup = new THREE.Object3D()
-				armGroup.position.x = handXOffset / -2
+				armGroup = new THREE.Object3D()
+				armGroup.position.x = handXOffset / -1.25
 
 					forearmGroup = ballGroup()
 					
 
-						var handGroup = ballGroup()
+						handGroup = ballGroup()
 						handGroup.position.x += handXOffset
 						
 
-							var fingers = {
-								pointer: new Finger("pointer"),
-								middle: new Finger("middle"),
-								ring: new Finger("ring"),
-								pinky: new Finger("pinky")
+							fingers = {
+								pointer: Finger("pointer"),
+								middle: Finger("middle"),
+								ring: Finger("ring"),
+								pinky: Finger("pinky")
 							}
 
-							for(var i in fingers){
-								var finger = fingers[i];
-								handGroup.add(finger.lowerDigit)
-								handGroup.add(lineTo(new THREE.Vector3(), finger.lowerDigit.position))
+							for(var i = 0; i < Object.keys(fingers).length; i++){
+
+								var fingerName = Object.keys(fingers)[i]
+
+								var finger = fingers[fingerName];
+								if(i > 0 && webbing){
+									var previousFingerName = Object.keys(fingers)[i - 1]
+
+									handGroup.add(lineTo(finger.position, fingers[previousFingerName].position))
+								}
+
+
+								handGroup.add(finger)
+								handGroup.add(lineTo(new THREE.Vector3(), finger.position))
+
 							}
+
+							var lowerThumbJoint = ballGroup()
+							lowerThumbJoint.position.add(lowerThumbJointPosition)
+
+								var upperThumbJoint = ballGroup()
+								upperThumbJoint.position.add(upperThumbJointPosition)
+
+								lowerThumbJoint.add(upperThumbJoint)
+								lowerThumbJoint.add(lineTo(new THREE.Vector3(), upperThumbJoint.position))
+
+
+							handGroup.add(lowerThumbJoint)
+							handGroup.add(lineTo(new THREE.Vector3(), lowerThumbJoint.position))
 
 						forearmGroup.add(handGroup)
 						forearmGroup.add(lineTo(new THREE.Vector3(), handGroup.position))
@@ -177,6 +202,9 @@
 				return new THREE.Line(lineGeo, material)
 			}
 
+			function xzVector(magnitude, angle){
+				return new THREE.Vector3(Math.cos(angle) * magnitude, 0, Math.sin(angle) * magnitude)
+			}
 
 
 		</script>
