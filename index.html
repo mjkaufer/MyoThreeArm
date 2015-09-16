@@ -32,7 +32,7 @@
 			var windowHalfX = window.innerWidth / 2;
 			var windowHalfY = window.innerHeight / 2;
 
-			var material, controls;
+			var lineMaterial, material, geometry, controls;
 
 
 
@@ -43,13 +43,25 @@
 			init();
 			animate();
 
+			function ballGroup(){//balls are at centers of group, and show where the group pivots
+				var group = new THREE.Object3D();
+
+				var ball = new THREE.Mesh(geometry, material)
+
+				group.add(ball)
+
+				return group;
+			}
+
 			function init() {
 
 				container = document.createElement( 'div' );
 				document.body.appendChild( container );
 
 				camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 1, 10000 );
-				camera.position.z = 500;
+				
+				camera.position.add(new THREE.Vector3(-50, 150, 0))
+
 
 				controls = new THREE.TrackballControls( camera );
 				controls.addEventListener( 'change', render );
@@ -58,16 +70,30 @@
 				scene = new THREE.Scene();
 				scene.fog = new THREE.Fog( 0xffffff, 1, 10000 );
 
-
+				geometry = new THREE.SphereGeometry( 3, 10, 10 );
 				material = new THREE.MeshNormalMaterial();
+
+				lineMaterial = new THREE.LineBasicMaterial({
+			    	color: 0x00ffff,
+			    	linewidth: 5
+				});
 
 				// the indenting is intentional, to make the object hierarchy clearer - I promise I'm not a bad programmer
 
+				// code results in a top-down view of the right hand
+				// or a bottom-down view of the left hand, if you're so inclined
+
+				var handXOffset = 50;
+
 				var armGroup = new THREE.Object3D()
+				armGroup.position.x = handXOffset / -2
 
-					var forearmGroup = new THREE.Object3D()
+					forearmGroup = ballGroup()
+					
 
-						var handGroup = new THREE.Object3D()
+						var handGroup = ballGroup()
+						handGroup.position.x += handXOffset
+						
 
 							var fingers = {
 								pointer: new Finger("pointer"),
@@ -78,10 +104,12 @@
 
 							for(var i in fingers){
 								var finger = fingers[i];
-								handGroup.add(finger.group)
+								handGroup.add(finger.lowerDigit)
+								handGroup.add(lineTo(new THREE.Vector3(), finger.lowerDigit.position))
 							}
 
 						forearmGroup.add(handGroup)
+						forearmGroup.add(lineTo(new THREE.Vector3(), handGroup.position))
 
 					armGroup.add(forearmGroup)
 
@@ -141,6 +169,15 @@
 				renderer.render( scene, camera );
 
 			}
+
+			function lineTo(startVector, endVector){
+				var lineGeo = new THREE.Geometry()
+				lineGeo.vertices.push(startVector)
+				lineGeo.vertices.push(endVector)
+				return new THREE.Line(lineGeo, material)
+			}
+
+
 
 		</script>
 
