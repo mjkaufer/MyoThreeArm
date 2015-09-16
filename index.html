@@ -83,8 +83,9 @@
 				// code results in a top-down view of the left hand's palm
 
 				var handXOffset = 100;
-				var lowerThumbJointPosition = xzVector(25, -Math.PI / 2 + Math.PI / 24);
-				var upperThumbJointPosition = xzVector(15, -Math.PI / 2 + Math.PI / 4);
+				var lowerThumbJointPosition = xzVector(20, -Math.PI / 2 + Math.PI / 24);
+				var middleThumbJointPosition = xzVector(8, -Math.PI / 2 + Math.PI / 4);
+				var upperThumbJointPosition = xzVector(10, -Math.PI / 2 + Math.PI / 4);
 
 				armGroup = new THREE.Object3D()
 				armGroup.position.x = handXOffset / -1.25
@@ -123,11 +124,17 @@
 							var lowerThumbJoint = ballGroup()
 							lowerThumbJoint.position.add(lowerThumbJointPosition)
 
-								var upperThumbJoint = ballGroup()
-								upperThumbJoint.position.add(upperThumbJointPosition)
+								var middleThumbJoint = ballGroup()
+								middleThumbJoint.position.add(middleThumbJointPosition)
 
-								lowerThumbJoint.add(upperThumbJoint)
-								lowerThumbJoint.add(lineTo(new THREE.Vector3(), upperThumbJoint.position))
+									var upperThumbJoint = ballGroup()
+									upperThumbJoint.position.add(upperThumbJointPosition)
+
+									middleThumbJoint.add(upperThumbJoint)
+									middleThumbJoint.add(lineTo(new THREE.Vector3(), upperThumbJoint.position))
+
+								lowerThumbJoint.add(middleThumbJoint)
+								lowerThumbJoint.add(lineTo(new THREE.Vector3(), middleThumbJoint.position))
 
 
 							handGroup.add(lowerThumbJoint)
