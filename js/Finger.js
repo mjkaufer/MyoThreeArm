@@ -35,10 +35,12 @@ var Finger = function(fingerName){
 	
 
 		this.middleDigit = ballGroup()
-		this.middleDigit.position.add(xzVector(lowerToMiddleDigitSpacing * fingerScalar, scaledAngle))
+		// this.middleDigit.position.add(xzVector(lowerToMiddleDigitSpacing * fingerScalar, scaledAngle))
+		this.middleDigit.position.add(xzVector(lowerToMiddleDigitSpacing * fingerScalar, angle))
 
 			this.upperDigit = ballGroup()
-			this.upperDigit.position.add(xzVector(middleToUpperDigitSpacing * fingerScalar, scaledAngle))
+			// this.upperDigit.position.add(xzVector(middleToUpperDigitSpacing * fingerScalar, scaledAngle))
+			this.upperDigit.position.add(xzVector(middleToUpperDigitSpacing * fingerScalar, angle))
 
 			this.middleDigit.add(this.upperDigit);
 			this.middleDigit.add(lineTo(new THREE.Vector3(), this.upperDigit.position))
