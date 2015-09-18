@@ -46,6 +46,8 @@ var Finger = function(fingerName){
 		this.lowerDigit.add(this.middleDigit);
 		this.lowerDigit.add(lineTo(new THREE.Vector3(), this.middleDigit.position))
 
+	this.lowerDigit.middleDigit = this.middleDigit
+	this.lowerDigit.upperDigit = this.upperDigit
 
 	return this.lowerDigit
 
