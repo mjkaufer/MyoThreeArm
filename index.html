@@ -39,7 +39,7 @@
 			var maxLowerDigitAngle = Math.PI / 2 + Math.PI / 12
 			var lowerDigitMaxPercent = 0.7
 			var maxMiddleDigitAngle = Math.PI / 2
-			var middleDigitMinPercent = 0.6
+			var middleDigitMinPercent = 0.2
 
 			var zVector = new THREE.Vector3(0, 0, 1)
 
@@ -205,7 +205,7 @@
 
 				for(var i = 0; i < Object.keys(fingers).length; i++){
 					var fingerName = Object.keys(fingers)[i]
-					var percent = Math.abs(Math.sin(time + i * Math.PI / 12))
+					var percent = (Math.sin(time * 2 + i * Math.PI / 12) + 1) / 2
 					curlFinger(fingerName, percent)
 				}
 
@@ -294,7 +294,6 @@
 
 					rotateFinger(fingerName, "middle", middleDigitAngle)
 				}
-
 
 			}
 
