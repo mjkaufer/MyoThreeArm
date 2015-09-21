@@ -20,38 +20,37 @@ var Finger = function(fingerName){
 
 	var fingerScalar = fingerScalarMap[fingerName] || 1
 
-	this.fingerName = fingerName;
-	this.fingerNumber = Object.keys(fingerScalarMap).indexOf(fingerName)
+	var fingerNumber = Object.keys(fingerScalarMap).indexOf(fingerName)
 
 
-	var angle = makeAngle(this.fingerNumber)
-	var scaledAngle = makeAngle(this.fingerNumber, angleScalar)
+	var angle = makeAngle(fingerNumber)
+	var scaledAngle = makeAngle(fingerNumber, angleScalar)
 	
 	// the indenting is intentional, to make the object hierarchy clearer - I promise I'm not a bad programmer
 
-	this.lowerDigit = ballGroup()
-	this.lowerDigit.position.add(xzVector(fingerDistance * (1 + fingerScalar) / 2, angle))
-	// this.lowerDigit.position.add(xzVector(fingerDistance / 3, angle))
+	var lowerDigit = ballGroup()
+	lowerDigit.position.add(xzVector(fingerDistance * (1 + fingerScalar) / 2, angle))
+	// lowerDigit.position.add(xzVector(fingerDistance / 3, angle))
 	
 
-		this.middleDigit = ballGroup()
-		// this.middleDigit.position.add(xzVector(lowerToMiddleDigitSpacing * fingerScalar, scaledAngle))
-		this.middleDigit.position.add(xzVector(lowerToMiddleDigitSpacing * fingerScalar, angle))
+		var middleDigit = ballGroup()
+		// middleDigit.position.add(xzVector(lowerToMiddleDigitSpacing * fingerScalar, scaledAngle))
+		middleDigit.position.add(xzVector(lowerToMiddleDigitSpacing * fingerScalar, angle))
 
-			this.upperDigit = ballGroup()
-			// this.upperDigit.position.add(xzVector(middleToUpperDigitSpacing * fingerScalar, scaledAngle))
-			this.upperDigit.position.add(xzVector(middleToUpperDigitSpacing * fingerScalar, angle))
+			var upperDigit = ballGroup()
+			// upperDigit.position.add(xzVector(middleToUpperDigitSpacing * fingerScalar, scaledAngle))
+			upperDigit.position.add(xzVector(middleToUpperDigitSpacing * fingerScalar, angle))
 
-			this.middleDigit.add(this.upperDigit);
-			this.middleDigit.add(lineTo(new THREE.Vector3(), this.upperDigit.position))
+			middleDigit.add(upperDigit);
+			middleDigit.add(lineTo(new THREE.Vector3(), upperDigit.position))
 
-		this.lowerDigit.add(this.middleDigit);
-		this.lowerDigit.add(lineTo(new THREE.Vector3(), this.middleDigit.position))
+		lowerDigit.add(middleDigit);
+		lowerDigit.add(lineTo(new THREE.Vector3(), middleDigit.position))
 
-	this.lowerDigit.middleDigit = this.middleDigit
-	this.lowerDigit.upperDigit = this.upperDigit
+	lowerDigit.middleDigit = middleDigit
+	lowerDigit.upperDigit = upperDigit
 
-	return this.lowerDigit
+	return lowerDigit
 
 	
 }
