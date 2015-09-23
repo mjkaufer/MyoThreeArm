@@ -18,8 +18,10 @@
 	<body>
 
 		<script src="js/three.min.js"></script>
+		<script src="js/lib.js"></script>
 		<script src="js/TrackballControls.js"></script>
 		<script src="js/Finger.js"></script>
+		<script src="js/Thumb.js"></script>
 
 		<script>
 
@@ -50,15 +52,6 @@
 			init();
 			animate();
 
-			function ballGroup(){//balls are at centers of group, and show where the group pivots
-				var group = new THREE.Object3D();
-
-				var ball = new THREE.Mesh(geometry, material)
-
-				group.add(ball)
-
-				return group;
-			}
 
 			function init() {
 
@@ -88,16 +81,8 @@
 				// the indenting is intentional, to make the object hierarchy clearer - I promise I'm not a bad programmer
 
 				// code results in a top-down view of the left hand's palm
-				var lowerThumbAngle = -Math.PI / 2 + Math.PI / 24
-				var thumbAngle = -Math.PI / 2 + Math.PI / 6
-
 				var handXOffset = 100;
-				var thumbHandJointPosition = xzVector(10, lowerThumbAngle);
-				var lowerThumbJointPosition = xzVector(10, lowerThumbAngle);
-				var middleThumbJointPosition = xzVector(8, thumbAngle);
-				var upperThumbJointPosition = xzVector(8, thumbAngle);
 
-				thumbParts = []
 
 				armGroup = new THREE.Object3D()
 				armGroup.position.x = handXOffset / -1.25
@@ -133,35 +118,7 @@
 
 							}
 
-							thumbHandJoint = ballGroup()
-							thumbHandJoint.position.add(thumbHandJointPosition)
-							thumbParts.push(thumbHandJoint)
-							fingers["thumb"] = thumbHandJoint
-
-								lowerThumbJoint = ballGroup()
-								lowerThumbJoint.position.add(lowerThumbJointPosition)
-								thumbParts.push(lowerThumbJoint)
-
-									middleThumbJoint = ballGroup()
-									middleThumbJoint.position.add(middleThumbJointPosition)
-									thumbParts.push(middleThumbJoint)
-
-										upperThumbJoint = ballGroup()
-										upperThumbJoint.position.add(upperThumbJointPosition)
-										thumbParts.push(upperThumbJoint)
-
-										middleThumbJoint.add(upperThumbJoint)
-										middleThumbJoint.add(lineTo(new THREE.Vector3(), upperThumbJoint.position))
-
-									lowerThumbJoint.add(middleThumbJoint)
-									lowerThumbJoint.add(lineTo(new THREE.Vector3(), middleThumbJoint.position))
-
-									lowerThumbJoint.middleJoint = middleThumbJoint
-									lowerThumbJoint.upperJoint = upperThumbJoint
-
-
-								thumbHandJoint.add(lowerThumbJoint)
-								thumbHandJoint.add(lineTo(new THREE.Vector3(), lowerThumbJoint.position))
+							thumbHandJoint = Thumb()
 
 
 							handGroup.add(thumbHandJoint)
@@ -240,16 +197,6 @@
 
 			}
 
-			function lineTo(startVector, endVector){
-				var lineGeo = new THREE.Geometry()
-				lineGeo.vertices.push(startVector)
-				lineGeo.vertices.push(endVector)
-				return new THREE.Line(lineGeo, material)
-			}
-
-			function xzVector(magnitude, angle){
-				return new THREE.Vector3(Math.cos(angle) * magnitude, 0, Math.sin(angle) * magnitude)
-			}
 
 			function fingerToComponents(fingerName){
 				var finger = fingers[fingerName]
@@ -324,38 +271,38 @@
 
 			}
 
-			function curlThumb(percent){
+			// function curlThumb(percent){
 
-				var thumbHandJointMaxPercent = 0.55
-				var maxThumbHandJointAngle = Math.PI / 2.5
-				var lowerThumbJointMinPercent = 0.45
-				var maxLowerThumbJointAngle = Math.PI / 2
+			// 	var thumbHandJointMaxPercent = 0.55
+			// 	var maxThumbHandJointAngle = Math.PI / 2.5
+			// 	var lowerThumbJointMinPercent = 0.45
+			// 	var maxLowerThumbJointAngle = Math.PI / 2
 
-				for(var i = 0; i < thumbParts.length; i++){
+			// 	for(var i = 0; i < thumbParts.length; i++){
 					
-					thumbParts[i].rotation.set(0, 0, 0, "XYZ")
+			// 		thumbParts[i].rotation.set(0, 0, 0, "XYZ")
 
-				}
+			// 	}
 
-				var thumbHandJointPercent = Math.min(percent, thumbHandJointMaxPercent)
-				var thumbHandJointAngle = Math.sin(thumbHandJointPercent / thumbHandJointMaxPercent * Math.PI / 2) * maxThumbHandJointAngle
-				thumbHandJoint.rotateOnAxis(fingers["pinky"].position.clone().normalize(), thumbHandJointAngle)
+			// 	var thumbHandJointPercent = Math.min(percent, thumbHandJointMaxPercent)
+			// 	var thumbHandJointAngle = Math.sin(thumbHandJointPercent / thumbHandJointMaxPercent * Math.PI / 2) * maxThumbHandJointAngle
+			// 	thumbHandJoint.rotateOnAxis(fingers["pinky"].position.clone().normalize(), thumbHandJointAngle)
 
-				var lowerThumbJointRotationAxis = upperThumbJoint.position.clone().cross(handGroup.position).normalize()
-
-
-				if(percent >= lowerThumbJointMinPercent){
-					var lowerDigitAngle = Math.sin(
-						(percent - lowerThumbJointMinPercent) / (1 - lowerThumbJointMinPercent) * Math.PI / 2
-					) * maxLowerThumbJointAngle
-
-					lowerThumbJoint.rotateOnAxis(lowerThumbJointRotationAxis, lowerDigitAngle)
-				}				
+			// 	var lowerThumbJointRotationAxis = upperThumbJoint.position.clone().cross(handGroup.position).normalize()
 
 
+			// 	if(percent >= lowerThumbJointMinPercent){
+			// 		var lowerDigitAngle = Math.sin(
+			// 			(percent - lowerThumbJointMinPercent) / (1 - lowerThumbJointMinPercent) * Math.PI / 2
+			// 		) * maxLowerThumbJointAngle
+
+			// 		lowerThumbJoint.rotateOnAxis(lowerThumbJointRotationAxis, lowerDigitAngle)
+			// 	}				
 
 
-			}
+
+
+			// }
 
 
 		</script>

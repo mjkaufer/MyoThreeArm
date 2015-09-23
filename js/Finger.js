@@ -59,3 +59,4 @@ function makeAngle(fingerNumber, scalar){
 	scalar = scalar || 1
 	return (fingerNumber / Object.keys(fingerScalarMap).length * angleSpread - angleSpread / 2) * scalar + initialAngle
 }
+
