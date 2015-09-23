@@ -22,6 +22,8 @@
 		<script src="js/TrackballControls.js"></script>
 		<script src="js/Finger.js"></script>
 		<script src="js/Thumb.js"></script>
+		<script src="js/dat.min.js"></script>
+		<script src="js/datui.js"></script>
 
 		<script>
 			var start = Date.now()
@@ -49,7 +51,7 @@
 
 			var thumbParts
 
-			document.addEventListener( 'mousemove', onDocumentMouseMove, false );
+			
 
 			init();
 			animate();
@@ -58,6 +60,7 @@
 			function init() {
 
 				container = document.createElement( 'div' );
+				container.addEventListener( 'mousemove', onDocumentMouseMove, false );
 				document.body.appendChild( container );
 
 				camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 1, 10000 );
@@ -177,14 +180,22 @@
 				var time = (Date.now() - start) * 0.001;
 
 				
+				if(animating){
+					for(var i = 0; i < Object.keys(fingers).length; i++){
+						var fingerName = Object.keys(fingers)[i]
+						var percent = (Math.sin(time * 2 + i * Math.PI / 12) + 1) / 2
+						curlFinger(fingerName, percent)
+						fingerControl[fingerName] = percent
+					}
+					var handCurl = Math.sin(time / 4)
 
-				for(var i = 0; i < Object.keys(fingers).length; i++){
-					var fingerName = Object.keys(fingers)[i]
-					var percent = (Math.sin(time * 2 + i * Math.PI / 12) + 1) / 2
-					curlFinger(fingerName, percent)
+					curlHand(handCurl)
+					miscControls.hand = handCurl
+
+				} else {
+					start = Date.now()
 				}
-
-				curlHand(Math.sin(time / 4))
+				
 
 				
 
