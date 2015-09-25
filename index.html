@@ -179,6 +179,7 @@
 
 				var time = (Date.now() - start) * 0.001;
 
+				updateColors(0.0025)
 				
 				if(animating){
 					for(var i = 0; i < Object.keys(fingers).length; i++){
@@ -196,7 +197,7 @@
 					start = Date.now()
 				}
 				
-
+				
 				
 
 				camera.lookAt( scene.position );

@@ -1,12 +1,17 @@
 var geometry = new THREE.SphereGeometry( 2, 10, 10 );
 var lineMaterial = new THREE.LineBasicMaterial({
-	color: 0x000000,
+	color: new THREE.Color().setHSL(0, 0.5, 0.5),
 	linewidth: 20
 });
 var material = new THREE.MeshBasicMaterial({
-	color: 0xff0000
+	color: new THREE.Color().setHSL(0.5, 0.5, 0.5)
 });
 
+function updateColors(dh){
+	
+	material.color.offsetHSL(dh, 0, 0)
+	lineMaterial.color.offsetHSL(dh, 0, 0)
+}
 
 function ballGroup(){//balls are at centers of group, and show where the group pivots
 	var group = new THREE.Object3D();
@@ -14,6 +19,7 @@ function ballGroup(){//balls are at centers of group, and show where the group p
 	var ball = new THREE.Mesh(geometry, material)
 
 	group.add(ball)
+
 
 	return group;
 }
