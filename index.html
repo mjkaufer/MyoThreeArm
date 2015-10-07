@@ -130,6 +130,17 @@
 
 				scene.add(armGroup)
 
+				var collisionGroup = new THREE.Object3D()
+
+				var cubeSize = 20
+				cubeGeometry = new THREE.BoxGeometry( cubeSize, cubeSize, cubeSize );
+				cubeMaterial = new THREE.MeshBasicMaterial( {color: 0x00ffff, wireframe: true} );
+				cube = new THREE.Mesh(cubeGeometry, cubeMaterial)
+				cube.position.y += 2 * cubeSize
+				collisionGroup.add(cube)
+
+				scene.add(collisionGroup)
+
 
 				renderer = new THREE.WebGLRenderer();
 				renderer.setClearColor( 0xffffff );
