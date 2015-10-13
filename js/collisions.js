@@ -1,10 +1,10 @@
-function lineIntersectsInfinitePlane(startPositionVector, endPositionVector, planeNormalVector, planePointVector){
+function timeLineIntersectsInfinitePlane(startPositionVector, endPositionVector, planeNormalVector, planePointVector){
 
 	var displacementVector = endPositionVector.clone().sub(startPositionVector)
 	var denominator = planeNormalVector.dot(displacementVector)
 
-	if(denominator == 0)
-		return false;
+	if(denominator == 0)//does not intersect!
+		return -1;
 
 	var t = (planePointVector.dot(planeNormalVector) - planeNormalVector.dot(startPositionVector)) / denominator
 
@@ -15,7 +15,7 @@ function compareVectors(vectorA, vectorB, thresholdSquared){
 	return vectorA.clone().sub(vectorB).lengthSq() <= thresholdSquared
 }
 
-var vectorThresholdSquared = 1e-12
+var vectorThresholdSquared = 0.75
 
 function pointInPlane(collisionPointVector, planeAVector, planeBVector, planeCVector){
 
@@ -33,7 +33,7 @@ function pointInPlane(collisionPointVector, planeAVector, planeBVector, planeCVe
 
 	return unitVectors.every(function(e){
 		return compareVectors(unitVectors[0], e, vectorThresholdSquared)
-	})
+	}) && collisionPointVector
 }
 
 function pointOnLineVector(lineStartVector, lineDirectionVector, t){
@@ -42,14 +42,18 @@ function pointOnLineVector(lineStartVector, lineDirectionVector, t){
 
 function hasCollided(planeA, planeB, planeC, planeNormal, startPoint, endPoint){
 
-	var intersectionTime = lineIntersectsInfinitePlane(pointP, pointQ, planeNormal, planeA)
+	var intersectionTime = timeLineIntersectsInfinitePlane(startPoint, endPoint, planeNormal, planeA)
 
 	if(intersectionTime < 0 || intersectionTime > 1)
 		return false
 
+	// console.log("Intersected at",intersectionTime)
+
 	var displacementVector = endPoint.clone().sub(startPoint)
 
 	var intersectionPoint = pointOnLineVector(startPoint, displacementVector, intersectionTime)
+
+
 
 	return pointInPlane(intersectionPoint, planeA, planeB, planeC)
 
@@ -67,7 +71,7 @@ function test(){
 	var displacementVector = pointQ.clone().sub(pointP)
 
 	var planeNormal = planeA.clone().sub(planeB).cross(planeA.clone().sub(planeC))
-	var t = lineIntersectsInfinitePlane(pointP, pointQ, planeNormal, planeA)
+	var t = timeLineIntersectsInfinitePlane(pointP, pointQ, planeNormal, planeA)
 	console.log(t)
 	var intersectionPoint = pointOnLineVector(pointP, displacementVector, t)
 	console.log(intersectionPoint)
@@ -76,7 +80,58 @@ function test(){
 
 	// console.log(pointInPlane())
 
+}
+
+function checkCollision(vectorPairArray, mesh){
+
+	var vertices = mesh.geometry.vertices
+
+	for(var i = 0; i < mesh.geometry.faces.length; i++){
+		var face = mesh.geometry.faces[i]
+
+		var aVector = vertices[face.a]
+		var bVector = vertices[face.b]
+		var cVector = vertices[face.c]
+
+		var normal = face.normal
+
+		for(var j = 0; j < vectorPairArray.length; j++){
+
+			var vectorPair = vectorPairArray[j]
+
+			var p = vectorPair[0]
+			var q = vectorPair[1]
+
+			var collided = hasCollided(aVector, bVector, cVector, normal, p, q)
+
+			if(collided)
+				return collided
+			
+
+		}
+
+	}
+
+	return false
 
 
+}
 
+function testCollision(collisionGroup){
+	var collisionChildren = []
+	var vectorPairs = getLineVectorPairs(armGroup)
+	for(var i = 0; i < collisionGroup.children.length; i++){
+
+		var object = collisionGroup.children[i]
+		if(object.type != "Mesh")
+			continue
+		var collision = checkCollision(vectorPairs, object)
+		if(collision){
+			console.log("Child",i,"collided at",collision)
+			collisionChildren.push(i)
+		}
+
+	}
+
+	return collisionChildren
 }
