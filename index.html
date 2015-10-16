@@ -136,11 +136,18 @@
 				var cubeSize = 20
 				blueColor = new THREE.Color(0x00ffff)
 				redColor = new THREE.Color(0xff0000)
+
+				scene.add(new THREE.AmbientLight( 0xdddddd ))
+
 				cubeGeometry = new THREE.BoxGeometry( cubeSize, cubeSize, cubeSize );
-				cubeMaterial = new THREE.MeshBasicMaterial( {color: blueColor, wireframe: true} );
+				cubeMaterial = new THREE.MeshLambertMaterial( {color: blueColor} );
+
 				cube = new THREE.Mesh(cubeGeometry, cubeMaterial)
 				cube.position.y += 1.5 * cubeSize
 				cube.position.x += 2 * cubeSize
+				var wireframeHelper = new THREE.WireframeHelper(cube, 0x000000)
+				wireframeHelper.ignore = true
+				collisionGroup.add(wireframeHelper)
 				collisionGroup.add(cube)
 
 				scene.add(collisionGroup)

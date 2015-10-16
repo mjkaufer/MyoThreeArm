@@ -124,8 +124,8 @@ function testCollision(collisionGroup){
 	for(var i = 0; i < collisionGroup.children.length; i++){
 
 		var object = collisionGroup.children[i]
-		if(object.type != "Mesh")
-			continu
+		if(object.type != "Mesh" || object.ignore === true)
+			continue
 		var collision = checkCollision(vectorPairs, object)
 		if(collision){
 			// console.log("Child",i,"collided at",collision)
