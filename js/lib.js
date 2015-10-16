@@ -4,7 +4,8 @@ var lineMaterial = new THREE.LineBasicMaterial({
 	linewidth: 20
 });
 var material = new THREE.MeshBasicMaterial({
-	color: new THREE.Color().setHSL(0.5, 0.5, 0.5)
+	color: new THREE.Color().setHSL(0.5, 0.5, 0.5),
+	side: THREE.DoubleSide
 });
 
 function updateColors(dh){
@@ -43,7 +44,7 @@ function globalPosition(obj){
 	return vectorToGlobalVector(obj.position, obj.matrixWorld)
 }
 
-function globalGeometry(obj){
+function globalGeometry(obj){//obj is geometry, returns vertex array
 	var vertices = obj.geometry.vertices
 	var matrixWorld = obj.matrixWorld
 	var globalVertices = []
@@ -93,5 +94,22 @@ function getLineVectorPairs(object){
 
 
 	return vectorPairArray
+
+}
+
+function faceGeometry(vectorA, vectorB, vectorC){
+	var geo = new THREE.Geometry()
+
+	geo.vertices.push(vectorA)
+	geo.vertices.push(vectorB)
+	geo.vertices.push(vectorC)
+	var normal = vectorA.clone().sub(vectorB).cross(vectorA.clone().sub(vectorC)).normalize()
+	var color = new THREE.Color(0xff0000)
+
+	geo.faces.push(
+		new THREE.Face3( 0, 1, 2, normal, color, 0 )
+	)
+
+	return geo
 
 }

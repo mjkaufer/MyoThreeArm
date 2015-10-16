@@ -84,7 +84,8 @@ function test(){
 
 function checkCollision(vectorPairArray, mesh){
 
-	var vertices = mesh.geometry.vertices
+	// var vertices = mesh.geometry.vertices
+	var vertices = globalGeometry(mesh)
 
 	for(var i = 0; i < mesh.geometry.faces.length; i++){
 		var face = mesh.geometry.faces[i]
@@ -124,14 +125,14 @@ function testCollision(collisionGroup){
 
 		var object = collisionGroup.children[i]
 		if(object.type != "Mesh")
-			continue
+			continu
 		var collision = checkCollision(vectorPairs, object)
 		if(collision){
-			console.log("Child",i,"collided at",collision)
+			// console.log("Child",i,"collided at",collision)
 			collisionChildren.push(i)
 		}
 
 	}
 
-	return collisionChildren
+	return collisionChildren.length && collisionChildren || false//returns array with indices of collisionGroup which have collided, otherwise false
 }

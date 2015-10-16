@@ -134,8 +134,10 @@
 				collisionGroup = new THREE.Object3D()
 
 				var cubeSize = 20
+				blueColor = new THREE.Color(0x00ffff)
+				redColor = new THREE.Color(0xff0000)
 				cubeGeometry = new THREE.BoxGeometry( cubeSize, cubeSize, cubeSize );
-				cubeMaterial = new THREE.MeshBasicMaterial( {color: 0x00ffff, wireframe: true} );
+				cubeMaterial = new THREE.MeshBasicMaterial( {color: blueColor, wireframe: true} );
 				cube = new THREE.Mesh(cubeGeometry, cubeMaterial)
 				cube.position.y += 1.5 * cubeSize
 				cube.position.x += 2 * cubeSize
@@ -209,6 +211,11 @@
 				} else {
 					start = Date.now()
 				}
+
+				if(testCollision(collisionGroup))
+					cubeMaterial.color = redColor
+				else
+					cubeMaterial.color = blueColor
 				
 				
 				
