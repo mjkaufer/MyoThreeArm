@@ -49,6 +49,7 @@
 			var zVector = new THREE.Vector3(0, 0, 1)
 			var maxHandAngle = Math.PI / 2 - Math.PI / 8
 			var minHandAngle = -maxHandAngle
+			var maxArmRotation = Math.PI / 6
 
 			var thumbParts
 
@@ -133,22 +134,35 @@
 
 				collisionGroup = new THREE.Object3D()
 
-				var cubeSize = 20
+
+
+				
 				blueColor = new THREE.Color(0x00ffff)
 				redColor = new THREE.Color(0xff0000)
 
 				scene.add(new THREE.AmbientLight( 0xdddddd ))
 
-				cubeGeometry = new THREE.BoxGeometry( cubeSize, cubeSize, cubeSize );
-				cubeMaterial = new THREE.MeshLambertMaterial( {color: blueColor} );
 
-				cube = new THREE.Mesh(cubeGeometry, cubeMaterial)
-				cube.position.y += 1.5 * cubeSize
-				cube.position.x += 2 * cubeSize
-				var wireframeHelper = new THREE.WireframeHelper(cube, 0x000000)
-				wireframeHelper.ignore = true
-				collisionGroup.add(wireframeHelper)
-				collisionGroup.add(cube)
+				var cubeSize = 8
+				var cubes = 35
+				cubeGeometry = new THREE.BoxGeometry( cubeSize, cubeSize, cubeSize );
+				
+
+
+				for(var i = 0; i < cubes; i++){
+					var cubeMaterial = new THREE.MeshLambertMaterial( {color: blueColor} );
+					var cube = new THREE.Mesh(cubeGeometry, cubeMaterial)
+
+					cube.position.y += (2 * Math.random() - 1) * cubes
+					cube.position.x += (2 * Math.random()) * cubes + cubes
+					cube.position.z += (2 * Math.random() - 1) * cubes
+					var wireframeHelper = new THREE.WireframeHelper(cube, 0x000000)
+					wireframeHelper.ignore = true
+
+					collisionGroup.add(wireframeHelper)
+					collisionGroup.add(cube)	
+				}
+				
 
 				scene.add(collisionGroup)
 
@@ -215,14 +229,24 @@
 					curlHand(handCurl)
 					miscControls.hand = handCurl
 
+					var armRotationValue = Math.sin(time / 16)
+					rotateArm(armRotationValue)
+					miscControls['arm rotation'] = armRotationValue
+
 				} else {
 					start = Date.now()
 				}
-
-				if(testCollision(collisionGroup))
-					cubeMaterial.color = redColor
-				else
-					cubeMaterial.color = blueColor
+				var collisions = testCollision(collisionGroup)
+				for(var i = 0; i < collisionGroup.children.length; i++){
+					var object = collisionGroup.children[i]
+					if(object.ignore)
+						continue
+					if(collisions.indexOf(i) == -1)
+						object.material.color = blueColor
+					else
+						object.material.color = redColor
+				}
+				
 				
 				
 				
@@ -284,6 +308,10 @@
 				handGroup.rotation.set(0, 0, 0, "XYZ")
 				var angle = (maxHandAngle - minHandAngle) * value + minHandAngle
 				handGroup.rotateZ(angle)
+			}
+
+			function rotateArm(value){
+				armGroup.rotation.x = value * maxArmRotation
 			}
 
 			function curlFinger(fingerName, percent){

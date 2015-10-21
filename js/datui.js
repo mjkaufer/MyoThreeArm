@@ -14,6 +14,7 @@ var FingerControls = function() {
 
 var MiscControls = function(){
 	this["hand"] = 0.5
+	this["arm rotation"] = 0.1
 	this["toggle animate"] = function(){
 		animating = !animating
 	}
@@ -45,7 +46,14 @@ fingerFolder.open()
 var miscControls = new MiscControls()
 
 var hand = gui.add(miscControls, 'hand', -1, 1)
+var armRotation = gui.add(miscControls, 'arm rotation', -1, 1)
 var toggleAnimate = gui.add(miscControls, 'toggle animate')
+
+
+armRotation.step(stepSize).onChange(function(val){
+	animating = false
+	rotateArm(val)
+})
 
 hand.step(stepSize).onChange(function(val){
 	animating = false
@@ -53,9 +61,8 @@ hand.step(stepSize).onChange(function(val){
 })
 
 
-
+armRotation.listen()
 hand.listen()
-
 
 var datDom = document.getElementsByClassName('dg ac')[0]
 

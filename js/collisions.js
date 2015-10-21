@@ -134,5 +134,5 @@ function testCollision(collisionGroup){
 
 	}
 
-	return collisionChildren.length && collisionChildren || false//returns array with indices of collisionGroup which have collided, otherwise false
+	return collisionChildren//returns array with indices of collisionGroup which have collided
 }
