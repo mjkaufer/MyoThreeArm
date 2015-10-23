@@ -143,25 +143,55 @@
 				scene.add(new THREE.AmbientLight( 0xdddddd ))
 
 
+				
+				
 				var cubeSize = 8
-				var cubes = 35
 				cubeGeometry = new THREE.BoxGeometry( cubeSize, cubeSize, cubeSize );
 				
+				var dTheta = 30
+				var dPhi = 30
+				var dRho = 20
+
+				var maxTheta = 360
+				var maxPhi = 180
+				var rho0 = 20
+				var maxRho = rho0 + 2 * dRho
+
+				
+				
+				for(var theta = 0; theta < maxTheta; theta+=dTheta)
+					for(var phi = 0; phi < maxPhi; phi+=dPhi)
+						for(var rho = rho0; rho < maxRho; rho+=dRho){
+
+							var cubeMaterial = new THREE.MeshLambertMaterial( {color: blueColor, opacity: 0.8, transparent: true} );
+							var cube = new THREE.Mesh(cubeGeometry, cubeMaterial)
+
+							cube.position.x += Math.sin(phi * Math.PI / 180) * Math.cos(theta * Math.PI / 180) * rho + maxRho
+							cube.position.y += Math.sin(phi * Math.PI / 180) * Math.sin(theta * Math.PI / 180) * rho
+							cube.position.z += Math.cos(phi * Math.PI / 180) * rho
+							var wireframeHelper = new THREE.WireframeHelper(cube, 0x000000)
+							wireframeHelper.ignore = true
+
+							collisionGroup.add(wireframeHelper)
+							collisionGroup.add(cube)
+						}
 
 
-				for(var i = 0; i < cubes; i++){
-					var cubeMaterial = new THREE.MeshLambertMaterial( {color: blueColor} );
-					var cube = new THREE.Mesh(cubeGeometry, cubeMaterial)
 
-					cube.position.y += (2 * Math.random() - 1) * cubes
-					cube.position.x += (2 * Math.random()) * cubes + cubes
-					cube.position.z += (2 * Math.random() - 1) * cubes
-					var wireframeHelper = new THREE.WireframeHelper(cube, 0x000000)
-					wireframeHelper.ignore = true
 
-					collisionGroup.add(wireframeHelper)
-					collisionGroup.add(cube)	
-				}
+				// for(var i = 0; i < cubes; i++){
+				// 	var cubeMaterial = new THREE.MeshLambertMaterial( {color: blueColor} );
+				// 	var cube = new THREE.Mesh(cubeGeometry, cubeMaterial)
+
+				// 	cube.position.y += (2 * Math.random() - 1) * cubeDistance
+				// 	cube.position.x += (2 * Math.random()) * cubeDistance * 1.25
+				// 	cube.position.z += (2 * Math.random() - 1) * cubeDistance
+				// 	var wireframeHelper = new THREE.WireframeHelper(cube, 0x000000)
+				// 	wireframeHelper.ignore = true
+
+				// 	collisionGroup.add(wireframeHelper)
+				// 	collisionGroup.add(cube)	
+				// }
 				
 
 				scene.add(collisionGroup)
