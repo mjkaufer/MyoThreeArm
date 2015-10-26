@@ -8,6 +8,11 @@ var material = new THREE.MeshBasicMaterial({
 	side: THREE.DoubleSide
 });
 
+var blueColor = new THREE.Color(0x00ffff)
+var redColor = new THREE.Color(0xff0000)
+var blueMaterial = new THREE.MeshLambertMaterial( {color: blueColor, opacity: 0.8, transparent: true} );
+var redMaterial = new THREE.MeshLambertMaterial( {color: redColor, opacity: 0.8, transparent: true} );
+
 function updateColors(dh){
 	
 	material.color.offsetHSL(dh, 0, 0)

@@ -4,7 +4,7 @@ function timeLineIntersectsInfinitePlane(startPositionVector, endPositionVector,
 	var denominator = planeNormalVector.dot(displacementVector)
 
 	if(denominator == 0)//does not intersect!
-		return -1;
+		return null;
 
 	var t = (planePointVector.dot(planeNormalVector) - planeNormalVector.dot(startPositionVector)) / denominator
 
@@ -44,7 +44,7 @@ function hasCollided(planeA, planeB, planeC, planeNormal, startPoint, endPoint){
 
 	var intersectionTime = timeLineIntersectsInfinitePlane(startPoint, endPoint, planeNormal, planeA)
 
-	if(intersectionTime < 0 || intersectionTime > 1)
+	if(intersectionTime === null || intersectionTime < 0 || intersectionTime > 1)
 		return false
 
 	// console.log("Intersected at",intersectionTime)
@@ -82,7 +82,7 @@ function test(){
 
 }
 
-function checkCollision(vectorPairArray, mesh){
+function vectorPairsCollidedWithMesh(vectorPairArray, mesh){
 
 	// var vertices = mesh.geometry.vertices
 	var vertices = globalGeometry(mesh)
@@ -118,7 +118,7 @@ function checkCollision(vectorPairArray, mesh){
 
 }
 
-function testCollision(collisionGroup){
+function checkCollision(collisionGroup){
 	var collisionChildren = []
 	var vectorPairs = getLineVectorPairs(armGroup)
 	for(var i = 0; i < collisionGroup.children.length; i++){
@@ -126,7 +126,7 @@ function testCollision(collisionGroup){
 		var object = collisionGroup.children[i]
 		if(object.type != "Mesh" || object.ignore === true)
 			continue
-		var collision = checkCollision(vectorPairs, object)
+		var collision = vectorPairsCollidedWithMesh(vectorPairs, object)
 		if(collision){
 			// console.log("Child",i,"collided at",collision)
 			collisionChildren.push(i)

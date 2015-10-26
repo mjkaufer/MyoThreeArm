@@ -15,6 +15,7 @@ var FingerControls = function() {
 var MiscControls = function(){
 	this["hand"] = 0.5
 	this["arm rotation"] = 0.1
+	this["opacity"] = 0.8
 	this["toggle animate"] = function(){
 		animating = !animating
 	}
@@ -47,17 +48,22 @@ var miscControls = new MiscControls()
 
 var hand = gui.add(miscControls, 'hand', -1, 1)
 var armRotation = gui.add(miscControls, 'arm rotation', -1, 1)
+var opacity = gui.add(miscControls, 'opacity', 0, 1)
 var toggleAnimate = gui.add(miscControls, 'toggle animate')
 
+hand.step(stepSize).onChange(function(val){
+	animating = false
+	curlHand(val)
+})
 
 armRotation.step(stepSize).onChange(function(val){
 	animating = false
 	rotateArm(val)
 })
 
-hand.step(stepSize).onChange(function(val){
-	animating = false
-	curlHand(val)
+opacity.step(stepSize).onChange(function(val){
+	redMaterial.opacity = val
+	blueMaterial.opacity = val
 })
 
 

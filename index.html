@@ -136,9 +136,7 @@
 
 
 
-				
-				blueColor = new THREE.Color(0x00ffff)
-				redColor = new THREE.Color(0xff0000)
+
 
 				scene.add(new THREE.AmbientLight( 0xdddddd ))
 
@@ -159,20 +157,21 @@
 
 				
 				
+
 				for(var theta = 0; theta < maxTheta; theta+=dTheta)
 					for(var phi = 0; phi < maxPhi; phi+=dPhi)
 						for(var rho = rho0; rho < maxRho; rho+=dRho){
 
-							var cubeMaterial = new THREE.MeshLambertMaterial( {color: blueColor, opacity: 0.8, transparent: true} );
-							var cube = new THREE.Mesh(cubeGeometry, cubeMaterial)
+							
+							var cube = new THREE.Mesh(cubeGeometry, blueMaterial)
 
 							cube.position.x += Math.sin(phi * Math.PI / 180) * Math.cos(theta * Math.PI / 180) * rho + maxRho
 							cube.position.y += Math.sin(phi * Math.PI / 180) * Math.sin(theta * Math.PI / 180) * rho
 							cube.position.z += Math.cos(phi * Math.PI / 180) * rho
-							var wireframeHelper = new THREE.WireframeHelper(cube, 0x000000)
-							wireframeHelper.ignore = true
+							// var wireframeHelper = new THREE.WireframeHelper(cube, 0x000000)
+							// wireframeHelper.ignore = true
 
-							collisionGroup.add(wireframeHelper)
+							// collisionGroup.add(wireframeHelper)
 							collisionGroup.add(cube)
 						}
 
@@ -266,15 +265,15 @@
 				} else {
 					start = Date.now()
 				}
-				var collisions = testCollision(collisionGroup)
+				var collisions = checkCollision(collisionGroup)
 				for(var i = 0; i < collisionGroup.children.length; i++){
 					var object = collisionGroup.children[i]
 					if(object.ignore)
 						continue
 					if(collisions.indexOf(i) == -1)
-						object.material.color = blueColor
+						object.material = blueMaterial
 					else
-						object.material.color = redColor
+						object.material = redMaterial
 				}
 				
 				
