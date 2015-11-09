@@ -250,17 +250,17 @@
 					for(var i = 0; i < Object.keys(fingers).length; i++){
 						var fingerName = Object.keys(fingers)[i]
 						var percent = (Math.sin(time * 2 + i * Math.PI / 12) + 1) / 2
-						curlFinger(fingerName, percent)
-						fingerControl[fingerName] = percent
+						curlFinger(percent, fingerName)
+						
 					}
 					var handCurl = Math.sin(time / 4)
 
 					curlHand(handCurl)
-					miscControls.hand = handCurl
+					
 
 					var armRotationValue = Math.sin(time / 16)
 					rotateArm(armRotationValue)
-					miscControls['arm rotation'] = armRotationValue
+					
 
 				} else {
 					start = Date.now()
@@ -332,18 +332,25 @@
 
 			function curlHand(value){//value ranges from -1 to 1, with -1 representing the hand curled backwards, and 1 representing the hand curled forwards
 
-				value = (value + 1) / 2
+				var normalizedValue = (value + 1) / 2
 
 				handGroup.rotation.set(0, 0, 0, "XYZ")
-				var angle = (maxHandAngle - minHandAngle) * value + minHandAngle
+				var angle = (maxHandAngle - minHandAngle) * normalizedValue + minHandAngle
 				handGroup.rotateZ(angle)
+
+				rotationValues["hand"] = value
+				miscControls["hand"] = value
 			}
 
 			function rotateArm(value){
 				armGroup.rotation.x = value * maxArmRotation
+				rotationValues["arm"] = value
+				miscControls['arm rotation'] = value
 			}
 
-			function curlFinger(fingerName, percent){
+			function curlFinger(percent, fingerName){
+
+				rotationValues[fingerName] = percent
 
 				if(fingerName == "thumb")
 					return curlThumb(percent)
@@ -356,6 +363,8 @@
 					fingerSegment.rotation.set(0, 0, 0, "XYZ")
 
 				}
+
+				fingerControl[fingerName] = percent
 
 
 				var lowerDigitPercent = Math.min(percent, lowerDigitMaxPercent)

@@ -13,6 +13,61 @@ var redColor = new THREE.Color(0xff0000)
 var blueMaterial = new THREE.MeshLambertMaterial( {color: blueColor, opacity: 0.8, transparent: true} );
 var redMaterial = new THREE.MeshLambertMaterial( {color: redColor, opacity: 0.8, transparent: true} );
 
+var rotationValues = {
+	"hand":0,
+	"arm": 0,
+	"thumb": 0,
+	"pointer": 0,
+	"middle": 0,
+	"ring": 0,
+	"pinky": 0,
+}
+
+//animates object from its current position to the end position specified, over a given time (in ms) with a given amount of updates per second
+//possible names are the keys of rotationValues
+function animateObject(name, destinationValue, time, updatesPerSecond){
+
+	var curlFunction = null;
+	if(name == "hand")
+		curlFunction = curlHand
+	else if(name == "arm")
+		curlFunction = rotateArm
+	else if(name in rotationValues)
+		curlFunction = curlFinger
+	else
+		return false
+
+	if(!updatesPerSecond)
+		updatesPerSecond = 100
+
+	if(!time)
+		time = 1000
+
+	var initialRotationValue = rotationValues[name]
+
+	var steps = time * updatesPerSecond / 1000
+
+	var delta = (destinationValue - initialRotationValue) / (steps)
+
+	var currentStep = 0;
+
+	var animationInterval = setInterval(function(){
+
+		var currentRotationValue = rotationValues[name]
+
+		curlFunction(currentRotationValue + delta, name)
+
+		currentStep++
+
+		if(currentStep >= steps)
+			return clearInterval(animationInterval)
+
+	}, time / steps)
+
+
+
+}
+
 function updateColors(dh){
 	
 	material.color.offsetHSL(dh, 0, 0)

@@ -4,20 +4,35 @@ var stepSize = 0.01
 
 
 var FingerControls = function() {
-
 	for(var i = 0; i < fingerList.length; i++){
 		var fingerName = fingerList[i]
 		this[fingerName] = 0.5
 	}
-	
 };
 
 var MiscControls = function(){
-	this["hand"] = 0.5
+	this["hand"] = -0.1
 	this["arm rotation"] = 0.1
 	this["opacity"] = 0.8
 	this["toggle animate"] = function(){
 		animating = !animating
+	}
+}
+
+var TrainingControls = function(){
+
+	this["train name"] = ""
+
+	this["train"] = function(){
+		//train model with "train name"
+	}
+
+	this["stream"] = function(){
+		//stream
+	}
+
+	this["stop stream"] = function(){
+		//stop stream
 	}
 }
 
@@ -69,6 +84,16 @@ opacity.step(stepSize).onChange(function(val){
 
 armRotation.listen()
 hand.listen()
+
+var trainingControl = new TrainingControls()
+var trainingFolder = gui.addFolder('TrainingControls')
+
+trainingFolder.add(trainingControl, 'train name')
+trainingFolder.add(trainingControl, 'train')
+trainingFolder.add(trainingControl, 'stream')
+trainingFolder.add(trainingControl, 'stop stream')
+
+trainingFolder.open()
 
 var datDom = document.getElementsByClassName('dg ac')[0]
 
