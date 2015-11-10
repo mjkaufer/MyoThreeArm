@@ -49,7 +49,7 @@ for(var i = 0; i < fingerList.length; i++){
 
 		finger.step(stepSize).onChange(function(val){
 			animating = false
-			curlFinger(fingerName, val)
+			curlFinger(val, fingerName)
 
 		})
 
@@ -63,6 +63,7 @@ var miscControls = new MiscControls()
 
 var hand = gui.add(miscControls, 'hand', -1, 1)
 var armRotation = gui.add(miscControls, 'arm rotation', -1, 1)
+
 var opacity = gui.add(miscControls, 'opacity', 0, 1)
 var toggleAnimate = gui.add(miscControls, 'toggle animate')
 
