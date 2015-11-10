@@ -10,8 +10,8 @@ var material = new THREE.MeshBasicMaterial({
 
 var blueColor = new THREE.Color(0x00ffff)
 var redColor = new THREE.Color(0xff0000)
-var blueMaterial = new THREE.MeshLambertMaterial( {color: blueColor, opacity: 0.8, transparent: true} );
-var redMaterial = new THREE.MeshLambertMaterial( {color: redColor, opacity: 0.8, transparent: true} );
+var blueMaterial = new THREE.MeshLambertMaterial( {color: blueColor, opacity: 0, transparent: true} );
+var redMaterial = new THREE.MeshLambertMaterial( {color: redColor, opacity: 0, transparent: true} );
 
 var rotationValues = {
 	"hand":0,
@@ -25,8 +25,6 @@ var rotationValues = {
 
 var gestures = {
 	fist : {
-		"hand":0,
-		"arm": 0,
 		"thumb": 1,
 		"pointer": 1,
 		"middle": 1,
@@ -34,13 +32,18 @@ var gestures = {
 		"pinky": 1,
 	},
 	open : {
-		"hand":0,
-		"arm": 0,
 		"thumb": 0,
 		"pointer": 0,
 		"middle": 0,
 		"ring": 0,
 		"pinky": 0,
+	},
+	ok : {
+		"thumb": 0.75,
+		"pointer": 0.75,
+		"middle": 0.1,
+		"ring": 0.1,
+		"pinky": 0.1,
 	}
 }
 

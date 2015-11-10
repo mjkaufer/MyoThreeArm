@@ -55,11 +55,12 @@ for(var i = 0; i < fingerList.length; i++){
 fingerFolder.open()
 
 var miscControls = new MiscControls()
+var miscFolder = gui.addFolder('Misc. Controls')
 
-var hand = gui.add(miscControls, 'hand', -1, 1)
-var armRotation = gui.add(miscControls, 'arm rotation', -1, 1)
+var hand = miscFolder.add(miscControls, 'hand', -1, 1)
+var armRotation = miscFolder.add(miscControls, 'arm rotation', -1, 1)
 
-var opacity = gui.add(miscControls, 'opacity', 0, 1)
+var opacity = miscFolder.add(miscControls, 'opacity', 0, 1).listen()
 
 hand.step(stepSize).onChange(function(val){
 	curlHand(val)
@@ -74,12 +75,13 @@ opacity.step(stepSize).onChange(function(val){
 	blueMaterial.opacity = val
 })
 
-
 armRotation.listen()
 hand.listen()
 
+miscFolder.open()
+
 var trainingControl = new TrainingControls()
-var trainingFolder = gui.addFolder('TrainingControls')
+var trainingFolder = gui.addFolder('Training Controls')
 
 trainingFolder.add(trainingControl, 'train name')
 trainingFolder.add(trainingControl, 'train')
