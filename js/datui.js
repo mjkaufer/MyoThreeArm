@@ -19,22 +19,22 @@ var MiscControls = function(){
 	}
 }
 
-// var TrainingControls = function(){
+var TrainingControls = function(){
 
-// 	this["train name"] = ""
+	this["train name"] = ""
 
-// 	this["train"] = function(){
-// 		//train model with "train name"
-// 	}
+	this["train"] = function(){
+		//train model with "train name"
+	}
 
-// 	this["stream"] = function(){
-// 		//stream
-// 	}
+	this["stream"] = function(){
+		//stream
+	}
 
-// 	this["stop stream"] = function(){
-// 		//stop stream
-// 	}
-// }
+	this["stop stream"] = function(){
+		//stop stream
+	}
+}
 
 
 var gui = new dat.GUI();
@@ -86,15 +86,15 @@ opacity.step(stepSize).onChange(function(val){
 armRotation.listen()
 hand.listen()
 
-// var trainingControl = new TrainingControls()
-// var trainingFolder = gui.addFolder('TrainingControls')
+var trainingControl = new TrainingControls()
+var trainingFolder = gui.addFolder('TrainingControls')
 
-// trainingFolder.add(trainingControl, 'train name')
-// trainingFolder.add(trainingControl, 'train')
-// trainingFolder.add(trainingControl, 'stream')
-// trainingFolder.add(trainingControl, 'stop stream')
+trainingFolder.add(trainingControl, 'train name')
+trainingFolder.add(trainingControl, 'train')
+trainingFolder.add(trainingControl, 'stream')
+trainingFolder.add(trainingControl, 'stop stream')
 
-// trainingFolder.open()
+trainingFolder.open()
 
 var datDom = document.getElementsByClassName('dg ac')[0]
 

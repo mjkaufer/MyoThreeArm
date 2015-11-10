@@ -1,4 +1,4 @@
-# ThreeArm
+# MyoThreeArm
 
 ## What Is It?
 
@@ -18,6 +18,8 @@ ThreeArm will be connected to an EMG, in order to visualize results from the EMG
 
 ## Demo
 
-See the ThreeArm in action [here](http://www.kaufer.org/ThreeArm)
+See the ThreeArm in action [here](http://www.kaufer.org/MyoThreeArm)
+
+Note, this probably won't work without a Myo properly configured. There will be detailed instructions on how to set this up soon.
 
 ![ThreeArm Demo](/demo.gif?raw=true "ThreeArm Demo")
