@@ -38,12 +38,19 @@ var gestures = {
 		"ring": 1,
 		"pinky": 1,
 	},
-	ok : {
-		"thumb": 0.75,
-		"pointer": 0.75,
-		"middle": 0.1,
-		"ring": 0.1,
-		"pinky": 0.1,
+	// ok : {
+	// 	"thumb": 0.75,
+	// 	"pointer": 0.75,
+	// 	"middle": 0.1,
+	// 	"ring": 0.1,
+	// 	"pinky": 0.1,
+	// },
+	laser : {
+		"thumb": 0,
+		"pointer": 0,
+		"middle": 1,
+		"ring": 1,
+		"pinky": 1,
 	},
 	other : rotationValues
 }
