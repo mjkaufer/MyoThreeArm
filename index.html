@@ -245,26 +245,7 @@
 				var time = (Date.now() - start) * 0.001;
 
 				updateColors(0.0025)
-				
-				if(animating){
-					for(var i = 0; i < Object.keys(fingers).length; i++){
-						var fingerName = Object.keys(fingers)[i]
-						var percent = (Math.sin(time * 2 + i * Math.PI / 12) + 1) / 2
-						curlFinger(percent, fingerName)
-						
-					}
-					var handCurl = Math.sin(time / 4)
 
-					curlHand(handCurl)
-					
-
-					var armRotationValue = Math.sin(time / 16)
-					rotateArm(armRotationValue)
-					
-
-				} else {
-					start = Date.now()
-				}
 				var collisions = checkCollision(collisionGroup)
 				for(var i = 0; i < collisionGroup.children.length; i++){
 					var object = collisionGroup.children[i]
