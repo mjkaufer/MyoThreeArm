@@ -5,7 +5,7 @@ var stepSize = 0.01
 var FingerControls = function() {
 	for(var i = 0; i < fingerList.length; i++){
 		var fingerName = fingerList[i]
-		this[fingerName] = 0.5
+		this[fingerName] = 0.1
 	}
 };
 

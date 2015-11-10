@@ -191,6 +191,8 @@
 				// 	collisionGroup.add(wireframeHelper)
 				// 	collisionGroup.add(cube)	
 				// }
+
+				animateTo(gestures.open)
 				
 
 				scene.add(collisionGroup)
@@ -333,6 +335,8 @@
 
 				rotationValues[fingerName] = percent
 
+				fingerControl[fingerName] = percent
+
 				if(fingerName == "thumb")
 					return curlThumb(percent)
 
@@ -345,7 +349,7 @@
 
 				}
 
-				fingerControl[fingerName] = percent
+				
 
 
 				var lowerDigitPercent = Math.min(percent, lowerDigitMaxPercent)

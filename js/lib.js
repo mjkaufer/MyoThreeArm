@@ -23,6 +23,33 @@ var rotationValues = {
 	"pinky": 0,
 }
 
+var gestures = {
+	fist : {
+		"hand":0,
+		"arm": 0,
+		"thumb": 1,
+		"pointer": 1,
+		"middle": 1,
+		"ring": 1,
+		"pinky": 1,
+	},
+	open : {
+		"hand":0,
+		"arm": 0,
+		"thumb": 0,
+		"pointer": 0,
+		"middle": 0,
+		"ring": 0,
+		"pinky": 0,
+	}
+}
+
+function animateTo(animationValues){
+	for(var key in animationValues)
+		animateObject(key, animationValues[key])
+}
+
+
 //animates object from its current position to the end position specified, over a given time (in ms) with a given amount of updates per second
 //possible names are the keys of rotationValues
 function animateObject(name, destinationValue, time, updatesPerSecond){
