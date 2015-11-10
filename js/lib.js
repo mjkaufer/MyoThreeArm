@@ -52,6 +52,13 @@ var gestures = {
 		"ring": 1,
 		"pinky": 1,
 	},
+	metal : {
+		"thumb": 0.2,
+		"pointer": 0,
+		"middle": 1,
+		"ring": 1,
+		"pinky": 0,
+	},
 	other : rotationValues
 }
 
