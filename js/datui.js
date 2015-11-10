@@ -17,6 +17,8 @@ var MiscControls = function(){
 
 var TrainingControls = function(){
 
+	this["train options"] = ""
+
 	this["train name"] = ""
 
 	this["train"] = function(){
@@ -83,6 +85,9 @@ miscFolder.open()
 var trainingControl = new TrainingControls()
 var trainingFolder = gui.addFolder('Training Controls')
 
+trainingFolder.add(trainingControl, 'train options', Object.keys(gestures)).onChange(function(v){
+	animateTo(gestures[v])
+})
 trainingFolder.add(trainingControl, 'train name')
 trainingFolder.add(trainingControl, 'train')
 trainingFolder.add(trainingControl, 'stream')

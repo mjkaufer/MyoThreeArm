@@ -24,13 +24,6 @@ var rotationValues = {
 }
 
 var gestures = {
-	fist : {
-		"thumb": 1,
-		"pointer": 1,
-		"middle": 1,
-		"ring": 1,
-		"pinky": 1,
-	},
 	open : {
 		"thumb": 0,
 		"pointer": 0,
@@ -38,13 +31,21 @@ var gestures = {
 		"ring": 0,
 		"pinky": 0,
 	},
+	fist : {
+		"thumb": 1,
+		"pointer": 1,
+		"middle": 1,
+		"ring": 1,
+		"pinky": 1,
+	},
 	ok : {
 		"thumb": 0.75,
 		"pointer": 0.75,
 		"middle": 0.1,
 		"ring": 0.1,
 		"pinky": 0.1,
-	}
+	},
+	other : rotationValues
 }
 
 function animateTo(animationValues){
