@@ -70,6 +70,10 @@ function animateTo(animationValues){
 
 //animates object from its current position to the end position specified, over a given time (in ms) with a given amount of updates per second
 //possible names are the keys of rotationValues
+
+
+var animationIntervals = {}
+
 function animateObject(name, destinationValue, time, updatesPerSecond){
 
 	var curlFunction = null;
@@ -87,6 +91,9 @@ function animateObject(name, destinationValue, time, updatesPerSecond){
 
 	if(!time)
 		time = 1000
+
+	if(animationIntervals[name])
+		clearInterval(animationIntervals[name])
 
 	var initialRotationValue = rotationValues[name]
 
@@ -109,7 +116,9 @@ function animateObject(name, destinationValue, time, updatesPerSecond){
 
 	}, time / steps)
 
+	animationIntervals[name] = animationInterval
 
+	return animationInterval
 
 }
 
