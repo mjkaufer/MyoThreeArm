@@ -4,7 +4,7 @@ function timeLineIntersectsInfinitePlane(startPositionVector, endPositionVector,
 	var denominator = planeNormalVector.dot(displacementVector)
 
 	if(denominator == 0)//does not intersect!
-		return null;
+		return null
 
 	var t = (planePointVector.dot(planeNormalVector) - planeNormalVector.dot(startPositionVector)) / denominator
 
