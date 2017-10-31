@@ -5,14 +5,14 @@ var fingerScalarMap = {
 	"pinky": 0.8
 }
 
-var fingerDistance = 40;
+var fingerDistance = 40
 
 var angleSpread = Math.PI / 2
 
-var lowerToMiddleDigitSpacing = 15;
-var middleToUpperDigitSpacing = 15;
+var lowerToMiddleDigitSpacing = 15
+var middleToUpperDigitSpacing = 15
 
-var angleScalar = 1 / 2.5;// used to bring fingers closer together
+var angleScalar = 1 / 2.5 // used to bring fingers closer together
 
 var initialAngle = Math.PI / 15
 
@@ -44,7 +44,7 @@ var Finger = function(fingerName){
 			middleDigit.add(upperDigit);
 			middleDigit.add(lineTo(new THREE.Vector3(), upperDigit.position))
 
-		lowerDigit.add(middleDigit);
+		lowerDigit.add(middleDigit)
 		lowerDigit.add(lineTo(new THREE.Vector3(), middleDigit.position))
 
 	lowerDigit.middleDigit = middleDigit
